@@ -15,6 +15,20 @@ let localStrategy = passportLocal.Strategy;
 let flash = require('connect-flash');
 const serveIndex = require('serve-index');
 
+// import "mongoose" - required for DB Access
+let mongoose = require('mongoose');
+// URI
+let DB = require('./src/config/db');
+
+mongoose.connect(process.env.URI || DB.URI, {useNewUrlParser: true, useUnifiedTopology: true});
+
+let mongoDB = mongoose.connection;
+mongoDB.on('error', console.error.bind(console, 'Connection Error:'));
+mongoDB.once('open', ()=> {
+  console.log("Connected to MongoDB...");
+});
+
+
 //expression session
 app.use(session({
     secret: "SomeSecret",
@@ -46,6 +60,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
     res.render('pages/index');
+    console.log("Getting Main Page")
 });
 
 app.get('/about-me', function(req, res) {
@@ -157,6 +172,8 @@ app.get('/bussiness-contact/delete/:id',requireAuth, function(req, res){
   })
 });
 
-
-app.listen(3000);
-console.log('Server is listening on port 3000');
+app.use(function(err, req, res, next) {
+    console.log(err);
+});
+app.listen(8888);
+console.log('Server is listening on port 8888');
