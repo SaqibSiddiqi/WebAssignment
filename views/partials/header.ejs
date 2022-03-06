@@ -22,11 +22,16 @@
                     <a class="nav-link" href="/contact">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/bussiness-contact">Bussiness Contacts</a>
+                    <a class="nav-link" href="/bussiness-contact">Business Contacts</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login"></i>Login</a>
                 </li>
+                <% if(typeof displayName =='string' && displayName) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login"><i class="fas fa-lg fa-user"></i>Welcome <%= displayName%></a>
+                    </li>
+                <% } %>
 
             </ul>
         </div>

@@ -100,13 +100,6 @@ app.post('/login', function(req, res){
 });
 
 
-//Register Functions
-
-app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-});
-
 //Bussiness Contact Auth
 function requireAuth(req, res, next){
     if(!req.isAuthenticatied){
