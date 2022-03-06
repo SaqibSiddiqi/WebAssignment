@@ -1,0 +1,52 @@
+<% include ../partials/header.ejs %>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+          <h3>Contact Book</h3>
+          <br>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center">Name</th>
+                  <th>Email</th>
+                  <th class="text-center">Number</th>
+                  <th class="text-center">Edit</th>
+                  <th class="text-center">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Template Row -->
+                <% for (let count = 0; count < contacts.length; count++) { %>
+                <tr>
+                  <td class="text-center""><%= contacts[count].Name %></td>
+                  <td><%= books[count].Description %></td>
+                  <td class="text-center"><%=(+971) contacts[count].Number %></td>
+                  <td class="text-center"><%= contacts[count].Email %></td>
+
+                  <td class="text-center">
+                    <!-- Edit button (following route/books format) -->
+                    <a href="/books/<%= books[count]._id %>" class="btn btn-primary"><i class="fa fa-wrench" aria-hidden="true"></i> Edit</a>
+                  </td>
+
+                  <td class="text-center">
+                    <!-- Delete button -->
+                    <a href="/books/delete/<%= books[count]._id %>" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+           <div class="col-md-offset-1 col-md-10 text-center">
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<% include ../partials/footer.ejs %>
+
+

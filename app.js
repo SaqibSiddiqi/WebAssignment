@@ -32,6 +32,9 @@ app.use(passport.session());
 let userModel = require('./src/model/user');
 let User = userModel.User;
 
+let contactModel = require('./src/model/contacts');
+let Contact = contactModel.Contacts;
+
 passport.use(User.createStrategy());
 
 //serializer and Deserializer
@@ -60,11 +63,6 @@ app.get('/services', function(req, res) {
 app.get('/contact', function(req, res) {
     res.render('pages/contact');
 });
-
-app.get('/bussiness-contact', function(req, res){
-
-});
-
 
 //Login Functions
 app.get('/login', function(req, res){
@@ -103,54 +101,68 @@ app.post('/login', function(req, res){
 
 
 //Register Functions
-app.get('/register', function(req, res){
-    if(!req.user){
-        res.render('auth/register',{
-            title:"Register", 
-            messages :req.flash('registerMessege'), 
-            displayName : req.user? req.user.displayName:""
-        });
-    }else{
-        return res.redirect('/');
-    }
-});
-
-app.post('/register', function(req, res){
-
-    let newUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        displayName: req.body.displayName
-    });
-
-    User.register(newUser, req.body.password, (err)=>{
-        if(err){
-            console.log("Error registering new user");
-            if(err.name = "UserExistsError"){
-                req.flash(
-                    'regiserMessege', 'Registration Error: User Already Exists'
-                );
-                console.log('Error: User already Exists');
-            }
-            return res.render('auth/register', {
-                title: 'Register',
-                messages: req.flash('registerMessage'),
-                displayName: req.user? req.user.displayName: ""
-            });
-        }else{
-            return passport.authenticate('local')(req, res, ()=>{
-                res.redirect('/bussiness-contact');
-            })
-        }
-    });
-});
 
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
 });
 
+//Bussiness Contact Auth
+function requireAuth(req, res, next){
+    if(!req.isAuthenticatied){
+        return res.redirect('/login');
+    }
+    next();
+}
 
+app.get('/bussiness-contact', function(req, res){
+    res.render('pages/bussiness-contact',{contacts: Contact});
+});
+
+//edit functions
+app.get('/bussiness-contact/:id',requireAuth, function(req, res){
+    let id = req.params.id;
+    Contact.findById(id, (err, contactToEdit)=>{
+      if(err){
+        console.log(err);
+        res.end(err);
+      }else{
+        res.render('auth/details',{title: 'Edit Contact', contacts: contactToEdit})
+      }
+    })
+});
+app.post('/bussiness-contact/:id',requireAuth, function(req, res){
+    let id = req.params.id;
+    let updatedContact = Contact({
+    "_id" :id,
+    "Name" : req.body.Name,
+    "Number" : req.body.Number,
+    "Email" : req.body.price
+  })
+
+  book.updateOne({_id:id}, updatedContact,(err)=>{
+    if(err){
+      console.log(err);
+      res.end(err);
+    }else{
+      res.redirect('/bussiness-contact');
+    }
+  })
+
+});
+
+//delete functions
+app.get('/bussiness-contact/delete/:id',requireAuth, function(req, res){
+  let id = req.params.id;
+  Contact.remove({_id:id}, (err)=>{
+    if(err){
+      console.log(err);
+      res.end(err);
+    }else{
+      res.redirect('/bussiness-contact');
+    }
+  })
+});
 
 
 app.listen(3000);
