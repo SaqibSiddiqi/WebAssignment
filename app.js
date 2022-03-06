@@ -24,5 +24,12 @@ app.get('/contact', function(req, res) {
     res.render('pages/contact');
 });
 
-app.listen(8888);
-console.log('Server is listening on port 8888');
+app.get('/bussiness-contact', function(req, res){
+
+});
+app.get('/login', function(req, res){
+
+});
+
+app.listen(3000);
+console.log('Server is listening on port 3000');
