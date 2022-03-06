@@ -148,7 +148,7 @@ app.post('/bussiness-contact/:id',requireAuth, function(req, res){
     "Email" : req.body.price
   })
 
-  book.updateOne({_id:id}, updatedContact,(err)=>{
+  Contact.updateOne({_id:id}, updatedContact,(err)=>{
     if(err){
       console.log(err);
       res.end(err);
