@@ -13,8 +13,10 @@
                   <th class="text-center">Name</th>
                   <th>Email</th>
                   <th class="text-center">Number</th>
+                  <% if(typeof displayName == 'string' && displayName){ %>
                   <th class="text-center">Edit</th>
                   <th class="text-center">Delete</th>
+                  <% } %>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,7 +27,7 @@
                   <td><%= books[count].Description %></td>
                   <td class="text-center"><%=(+971) contacts[count].Number %></td>
                   <td class="text-center"><%= contacts[count].Email %></td>
-
+                  <% if(typeof displayName == 'string' && displayName){ %>
                   <td class="text-center">
                     <!-- Edit button (following route/books format) -->
                     <a href="/books/<%= books[count]._id %>" class="btn btn-primary"><i class="fa fa-wrench" aria-hidden="true"></i> Edit</a>
@@ -35,6 +37,7 @@
                     <!-- Delete button -->
                     <a href="/books/delete/<%= books[count]._id %>" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
                   </td>
+                  <% } %>
                 </tr>
                 <% } %>
               </tbody>

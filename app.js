@@ -109,7 +109,7 @@ app.post('/login', function(req, res){
                 username : user.username,
                 email : user.email
             }
-            return res.redirect('/business-contact');
+            return res.redirect('/business-contact', {displayName: displayName});
         });
     });
 });
@@ -153,7 +153,7 @@ app.post('/bussiness-contact/:id',requireAuth, function(req, res){
       console.log(err);
       res.end(err);
     }else{
-      res.redirect('/bussiness-contact');
+      res.redirect('/bussiness-contact', {displayName: displayName});
     }
   })
 
@@ -167,7 +167,7 @@ app.get('/bussiness-contact/delete/:id',requireAuth, function(req, res){
       console.log(err);
       res.end(err);
     }else{
-      res.redirect('/bussiness-contact');
+      res.redirect('/bussiness-contact', {displayName: displayName});
     }
   })
 });
